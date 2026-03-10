@@ -133,7 +133,7 @@ const TANNERY_PROFILE: IndustryProfile = {
     dissolvedOxygen_mgL:   { min: 0.5, max: 2.0 },    // Near-anoxic from high organic load
     flow_KLD:              { min: 200, max: 800 },     // Over-capacity discharge
   },
-  typicalBodCodRatio: { min: 0.25, max: 0.45 },  // Tannery effluent has low biodegradability
+  typicalBodCodRatio: { min: 0.08, max: 0.18 },  // Very low — recalcitrant chrome tanning waste (Jajmau data: BOD 17 / COD 240 = 0.07)
   problemParameters: ['COD_mgL', 'totalChromium_mgL', 'BOD_mgL', 'TSS_mgL'],
   typicalFlow: { min: 100, max: 500 },
   zldMandated: false,
@@ -172,7 +172,7 @@ const DISTILLERY_PROFILE: IndustryProfile = {
     dissolvedOxygen_mgL:   { min: 0.2, max: 1.5 },
     flow_KLD:              { min: 50,  max: 300 },     // Any discharge = ZLD violation
   },
-  typicalBodCodRatio: { min: 0.3, max: 0.5 },
+  typicalBodCodRatio: { min: 0.20, max: 0.35 },  // Post-biomethanation, melanoidins reduce ratio
   problemParameters: ['flow_KLD', 'BOD_mgL', 'COD_mgL', 'pH'],
   typicalFlow: { min: 0, max: 0 },  // ZLD target
   zldMandated: true,
@@ -209,7 +209,7 @@ const PHARMA_PROFILE: IndustryProfile = {
     dissolvedOxygen_mgL:   { min: 1,   max: 3 },
     flow_KLD:              { min: 100, max: 400 },
   },
-  typicalBodCodRatio: { min: 0.15, max: 0.35 },  // Low biodegradability due to API residues
+  typicalBodCodRatio: { min: 0.15, max: 0.25 },  // Low biodegradability due to API residues and solvents
   problemParameters: ['COD_mgL', 'pH', 'ammoniacalN_mgL'],
   typicalFlow: { min: 50, max: 200 },
   zldMandated: false,
@@ -245,7 +245,7 @@ const PULP_AND_PAPER_PROFILE: IndustryProfile = {
     dissolvedOxygen_mgL:   { min: 0.5, max: 2 },
     flow_KLD:              { min: 3000, max: 10000 },
   },
-  typicalBodCodRatio: { min: 0.3, max: 0.5 },    // Moderate biodegradability
+  typicalBodCodRatio: { min: 0.15, max: 0.22 },   // Low — lignin and chloro-organics are recalcitrant
   problemParameters: ['COD_mgL', 'BOD_mgL', 'TSS_mgL', 'pH'],
   typicalFlow: { min: 500, max: 5000 },
   zldMandated: false,
@@ -316,7 +316,7 @@ const SUGAR_PROFILE: IndustryProfile = {
     dissolvedOxygen_mgL:   { min: 1,   max: 3 },
     flow_KLD:              { min: 800, max: 3000 },
   },
-  typicalBodCodRatio: { min: 0.4, max: 0.6 },    // Highly biodegradable (sugars)
+  typicalBodCodRatio: { min: 0.25, max: 0.40 },   // Relatively biodegradable (sugars/molasses)
   problemParameters: ['BOD_mgL', 'COD_mgL'],
   typicalFlow: { min: 200, max: 1000 },
   zldMandated: false,

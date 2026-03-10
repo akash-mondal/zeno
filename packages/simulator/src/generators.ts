@@ -154,7 +154,8 @@ export function generateSensorReading(
   // 4. TSS: loosely correlated with COD (high organics → high suspended matter)
   const tssBase = randRange(ranges.TSS_mgL);
   const codFactor = cod / ((ranges.COD_mgL.min + ranges.COD_mgL.max) / 2);
-  const tss = Math.round(Math.max(0, tssBase * (0.7 + 0.3 * codFactor)) * 100) / 100;
+  const tssRaw = tssBase * (0.8 + 0.2 * Math.min(codFactor, 1.5)); // damped correlation
+  const tss = Math.round(Math.max(0, Math.min(ranges.TSS_mgL.max, tssRaw)) * 100) / 100;
 
   // 5. Chromium: totalCr first, then hexCr ≤ totalCr (chemistry invariant)
   const totalCr = randRange(ranges.totalChromium_mgL);
