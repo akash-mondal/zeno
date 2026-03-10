@@ -13,12 +13,12 @@
     "lint": "turbo run lint",
     "dev": "turbo run dev",
     "validate-env": "npx tsx scripts/validate-env.ts",
-    "e2e": "npx tsx scripts/e2e-test.ts"
+    "e2e": "npx tsx scripts/e2e-pipeline.ts"
   },
   "devDependencies": {
+    "tsx": "^4.19.0",
     "turbo": "^2.8.14",
-    "typescript": "^5.7.0",
-    "tsx": "^4.19.0"
+    "typescript": "^5.7.0"
   },
   "engines": {
     "node": ">=20.0.0"

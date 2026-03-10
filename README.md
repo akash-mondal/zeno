@@ -27,7 +27,6 @@ OCEMS Device ──→ CPCB cems.cpcb.gov.in              (existing pipeline, un
                                ──→ Guardian dMRV
                                ──→ Smart Contracts
                                ──→ HTS Tokens
-                               ──→ AI Agent
                                ──→ Satellite Validation
                                ──→ Mirror Node → Dashboard
 ```
@@ -38,7 +37,7 @@ Every compliance token traces back through a 6-layer trust chain: facility regis
 
 ## Architecture
 
-### Hedera Services (7 integrated)
+### Hedera Services (6 integrated)
 
 | Service | Integration |
 |---------|-------------|
@@ -46,7 +45,6 @@ Every compliance token traces back through a 6-layer trust chain: facility regis
 | **HTS** | Three token types: ComplianceCredit (GGCC) fungible token, ViolationNFT, ComplianceCertificateNFT — full digital environmental asset lifecycle |
 | **Smart Contracts** | ComplianceChecker.sol (on-chain threshold verification with HTS precompile at 0x167), PenaltyCalculator.sol (graduated penalties) |
 | **Guardian** | 5-role dMRV policy: Standard Registry (CPCB), Project Proponent (Industry), SPCB Inspector, VVB Auditor, IoT Data Service |
-| **Agent Kit** | Custom CompliancePlugin with 4 tools: compliance check, anomaly detection, satellite cross-validation, violation minting |
 | **Mirror Node** | REST API powering the entire dashboard — true Web3 architecture, no external database |
 | **AWS KMS** | Device-level ECDSA signing (ECC_SECG_P256K1), keys never leave FIPS 140-2 Level 3 HSM, CloudTrail audit |
 
@@ -93,11 +91,12 @@ zeno/
 │   │   └── README.md                 # Detailed architecture with Mermaid diagrams
 │   ├── simulator/                    # OCEMS sensor data generator
 │   ├── contracts/                    # Solidity smart contracts (Hardhat)
-│   ├── agent/                        # AI compliance agent (Agent Kit + LangChain)
 │   └── satellite/                    # Sentinel-2 water quality API (Python)
 ├── guardian/                         # Guardian dMRV policy files
 ├── docs/                             # AWS KMS docs, architecture diagrams
-└── scripts/                          # E2E tests, env validation
+├── scripts/
+│   └── e2e-pipeline.ts               # Full 10-step E2E pipeline (38 assertions, real testnet)
+└── deployments/                      # Smart contract deployment addresses (testnet.json)
 ```
 
 > **Base layer documentation**: See [`packages/blockchain/README.md`](packages/blockchain/README.md) for the complete Hedera integration architecture — multi-topic HCS design, data flow diagrams, trust chain structure, and compliance evaluation logic with Mermaid diagrams.
@@ -110,7 +109,6 @@ zeno/
 |-------|-----------|---------|
 | Blockchain SDK | `@hashgraph/sdk` | 2.80.0 |
 | Guardian | Hedera Guardian | 3.5.0 |
-| Agent Kit | `hedera-agent-kit` | 3.8.0 |
 | Signing | AWS KMS (ECC_SECG_P256K1) | — |
 | Frontend | Next.js | 16.1.6 |
 | UI | shadcn/ui, React-Leaflet 5.0, Recharts 3.8 | — |
@@ -135,6 +133,12 @@ npx turbo run build
 # Run the blockchain pipeline test (real Hedera testnet)
 npx tsx packages/blockchain/scripts/test-hedera-pipeline.ts
 
+# Run full E2E pipeline (10 steps, 38 assertions — creates topics, contracts, tokens)
+npx tsx scripts/e2e-pipeline.ts
+
+# Run KMS signing demo (AWS KMS bounty)
+npx tsx packages/blockchain/scripts/kms-demo.ts
+
 # Run dashboard
 npm run dev -w apps/web
 ```
@@ -154,6 +158,9 @@ All resources verified on Hedera testnet via [HashScan](https://hashscan.io/test
 | GGCC Token | [`0.0.8144733`](https://hashscan.io/testnet/token/0.0.8144733) |
 | ViolationNFT | [`0.0.8144734`](https://hashscan.io/testnet/token/0.0.8144734) |
 | ComplianceCertNFT | [`0.0.8144735`](https://hashscan.io/testnet/token/0.0.8144735) |
+| KMS Account | [`0.0.8148249`](https://hashscan.io/testnet/account/0.0.8148249) |
+| ComplianceChecker Contract | See `deployments/testnet.json` |
+| PenaltyCalculator Contract | See `deployments/testnet.json` |
 
 ## AWS Bounty
 
