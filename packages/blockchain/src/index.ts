@@ -53,6 +53,10 @@ export {
   buildKMSSigner,
   signAndExecute,
   parseDERSignature,
+  createKMSSignedClient,
+  signReadingPayload,
+  signBatchPayload,
+  verifyReadingSignature,
 } from './kms-signer';
 
 // Mirror Node

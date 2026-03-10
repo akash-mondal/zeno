@@ -16,6 +16,7 @@
 import {
   TopicMessageSubmitTransaction,
   TopicId,
+  Client,
 } from '@hashgraph/sdk';
 import { getClient } from './client';
 import { getTopicMessages } from './mirror';
@@ -40,13 +41,15 @@ const CURRENT_SCHEMA_VERSION = '1.0.0';
 
 /**
  * Submit any typed message to an HCS topic wrapped in an envelope.
+ * Optionally accepts a KMS-signed client for device-authenticated submissions.
  */
 export async function submitMessage<T>(
   topicId: string,
   type: HCSMessageType,
-  payload: T
+  payload: T,
+  kmsSignedClient?: Client,
 ): Promise<{ txId: string; sequenceNumber: number }> {
-  const client = getClient();
+  const client = kmsSignedClient || getClient();
 
   const envelope: HCSMessageEnvelope<T> = {
     v: CURRENT_SCHEMA_VERSION,
@@ -83,20 +86,24 @@ export async function submitFacilityRegistration(
   return submitMessage(registryTopicId, 'facility_registration', registration);
 }
 
-/** Submit single sensor reading to facility topic */
+/** Submit single sensor reading to facility topic.
+ *  Pass kmsSignedClient to submit as the device identity (KMS-backed account). */
 export async function submitSensorReading(
   facilityTopicId: string,
-  reading: SensorReading
+  reading: SensorReading,
+  kmsSignedClient?: Client,
 ) {
-  return submitMessage(facilityTopicId, 'sensor_reading', reading);
+  return submitMessage(facilityTopicId, 'sensor_reading', reading, kmsSignedClient);
 }
 
-/** Submit 15-min reading batch to facility topic */
+/** Submit 15-min reading batch to facility topic.
+ *  Pass kmsSignedClient to submit as the device identity (KMS-backed account). */
 export async function submitSensorReadingBatch(
   facilityTopicId: string,
-  batch: SensorReadingBatch
+  batch: SensorReadingBatch,
+  kmsSignedClient?: Client,
 ) {
-  return submitMessage(facilityTopicId, 'sensor_reading_batch', batch);
+  return submitMessage(facilityTopicId, 'sensor_reading_batch', batch, kmsSignedClient);
 }
 
 /** Submit compliance evaluation to ZENO-COMPLIANCE topic */

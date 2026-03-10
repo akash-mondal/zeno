@@ -91,9 +91,12 @@ export function buildTrustChainEvidence(params: {
     },
 
     kmsProof: {
-      kmsKeyId: readings[0]?.kmsKeyId || 'pending-kms-setup',
+      kmsKeyId: readings[0]?.kmsKeyId || 'not-configured',
       deviceHederaAccountId: facilityRegistration.deviceHederaAccountId,
-      batchSignatureHash: readings[0]?.kmsSigHash || 'pending-kms-setup',
+      batchSignatureHash: readings[0]?.kmsSigHash || 'not-configured',
+      cloudTrailReference: readings[0]?.kmsSigHash && readings[0].kmsSigHash !== 'not-configured'
+        ? `aws cloudtrail lookup-events --lookup-attributes AttributeKey=EventName,AttributeValue=Sign --max-results 5`
+        : undefined,
     },
 
     satelliteValidation,

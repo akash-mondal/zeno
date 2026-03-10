@@ -7,7 +7,8 @@
   "scripts": {
     "build": "tsc",
     "test": "echo \"no tests yet\"",
-    "lint": "tsc --noEmit"
+    "lint": "tsc --noEmit",
+    "kms-demo": "npx tsx scripts/kms-demo.ts"
   },
   "dependencies": {
     "@hashgraph/sdk": "^2.80.0",

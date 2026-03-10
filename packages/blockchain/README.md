@@ -157,10 +157,33 @@ flowchart TD
 | `compliance.ts` | CPCB Schedule-VI compliance engine with two-tier limits, ZLD, tolerance bands |
 | `trust-chain.ts` | Evidence package builder for NGT/Section 65B compliance |
 | `mirror.ts` | Mirror Node REST API typed wrappers with pagination |
-| `kms-signer.ts` | AWS KMS signing pipeline (DER parsing, key conversion, custom signer) |
+| `kms-signer.ts` | AWS KMS two-layer signing: transaction-level (`setOperatorWith`) + payload-level (`signReadingPayload`, `signBatchPayload`, `verifyReadingSignature`) |
 | `validator.ts` | Three-tier ingestion validation: analyzer limits, chemistry, flatline/rate-of-change detection, CPCB alert codes |
 
 > **Validator documentation**: See [`docs/validator.md`](docs/validator.md) for the complete validation rule reference — analyzer range limits, chemistry constraints, CPCB alert level mapping, quality codes, and flatline/rate-of-change detection logic.
+
+> **AWS KMS documentation**: See [`../../docs/aws-kms/README.md`](../../docs/aws-kms/README.md) for the full KMS architecture — key conversion, two-layer signing, IAM security, CloudTrail audit, and cost analysis.
+
+---
+
+## AWS KMS — Two-Layer Signing
+
+KMS provides two distinct signing layers that solve different trust problems:
+
+| Layer | Function | What It Proves |
+|-------|----------|---------------|
+| **Transaction-level** | `setOperatorWith(accountId, publicKey, signerCallback)` | This Hedera transaction was authorized by the KMS key holder |
+| **Payload-level** | `signReadingPayload(reading)` → `kmsSigHash` field | This specific sensor reading was produced by this specific device |
+
+Without payload signing, anyone with the operator key could submit fake readings. With it, only the device's KMS key (inside the HSM) can produce valid signatures. Verification is local using `elliptic` — no KMS call needed.
+
+```
+Reading JSON → canonicalize → keccak256 → KMS Sign (DIGEST) → DER parse → R||S hex → kmsSigHash
+```
+
+Key functions: `signReadingPayload()`, `signBatchPayload()`, `verifyReadingSignature()`, `buildKMSSigner()`, `createKMSSignedClient()`, `getHederaPublicKeyFromKMS()`
+
+Standalone demo: `npx tsx packages/blockchain/scripts/kms-demo.ts` (12 tests, covers all 5 AWS bounty requirements)
 
 ---
 
@@ -216,6 +239,7 @@ All resources created on Hedera testnet and verified via HashScan:
 | Resource | ID | HashScan |
 |----------|----|----------|
 | Operator Account | `0.0.7284970` | [View](https://hashscan.io/testnet/account/0.0.7284970) |
+| KMS Device Account | `0.0.8148249` | [View](https://hashscan.io/testnet/account/0.0.8148249) |
 | ZENO-REGISTRY | `0.0.8144973` | [View](https://hashscan.io/testnet/topic/0.0.8144973) |
 | ZENO-COMPLIANCE | `0.0.8144974` | [View](https://hashscan.io/testnet/topic/0.0.8144974) |
 | ZENO-CALIBRATION | `0.0.8144975` | [View](https://hashscan.io/testnet/topic/0.0.8144975) |
