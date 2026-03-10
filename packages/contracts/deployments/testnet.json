@@ -1,0 +1,17 @@
+{
+  "network": "hedera_testnet",
+  "chainId": 296,
+  "deployedAt": "2026-03-10T11:57:43.907Z",
+  "deployer": "0xb28C28809986f3EC441fF37cA4F59d904b9A727C",
+  "contracts": {
+    "ComplianceChecker": {
+      "address": "0x029CD3A532EF5B28702c46B92Cb832Cb87917253",
+      "hashscan": "https://hashscan.io/testnet/contract/0x029CD3A532EF5B28702c46B92Cb832Cb87917253"
+    },
+    "PenaltyCalculator": {
+      "address": "0x8633F178dE49311BE32E3DF2787f3641Ed5a9F75",
+      "hashscan": "https://hashscan.io/testnet/contract/0x8633F178dE49311BE32E3DF2787f3641Ed5a9F75"
+    }
+  },
+  "tokens": "Not created (using SDK-based minting)"
+}
