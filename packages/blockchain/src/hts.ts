@@ -6,12 +6,18 @@ import {
   TokenId,
   TokenAssociateTransaction,
   AccountId,
+  PrivateKey,
 } from '@hashgraph/sdk';
 import { getClient } from './client';
+
+function getOperatorKey(): PrivateKey {
+  return PrivateKey.fromStringDer(process.env.HEDERA_PRIVATE_KEY!);
+}
 
 export async function createComplianceCreditToken(): Promise<string> {
   const client = getClient();
   const operatorId = AccountId.fromString(process.env.HEDERA_ACCOUNT_ID!);
+  const supplyKey = getOperatorKey();
 
   const tx = new TokenCreateTransaction()
     .setTokenName('Ganga Green Compliance Credit')
@@ -21,6 +27,8 @@ export async function createComplianceCreditToken(): Promise<string> {
     .setInitialSupply(0)
     .setSupplyType(TokenSupplyType.Infinite)
     .setTreasuryAccountId(operatorId)
+    .setSupplyKey(supplyKey)
+    .setAdminKey(supplyKey)
     .setTokenMemo('Zeno ComplianceCredit — 1 GGCC = 1 facility-day of verified compliant discharge');
 
   const response = await tx.execute(client);
@@ -33,6 +41,7 @@ export async function createComplianceCreditToken(): Promise<string> {
 export async function createViolationNFTCollection(): Promise<string> {
   const client = getClient();
   const operatorId = AccountId.fromString(process.env.HEDERA_ACCOUNT_ID!);
+  const supplyKey = getOperatorKey();
 
   const tx = new TokenCreateTransaction()
     .setTokenName('Zeno Violation Record')
@@ -40,6 +49,8 @@ export async function createViolationNFTCollection(): Promise<string> {
     .setTokenType(TokenType.NonFungibleUnique)
     .setSupplyType(TokenSupplyType.Infinite)
     .setTreasuryAccountId(operatorId)
+    .setSupplyKey(supplyKey)
+    .setAdminKey(supplyKey)
     .setTokenMemo('Zeno ViolationNFT — immutable record of discharge standard violation');
 
   const response = await tx.execute(client);
@@ -52,6 +63,7 @@ export async function createViolationNFTCollection(): Promise<string> {
 export async function createComplianceCertNFTCollection(): Promise<string> {
   const client = getClient();
   const operatorId = AccountId.fromString(process.env.HEDERA_ACCOUNT_ID!);
+  const supplyKey = getOperatorKey();
 
   const tx = new TokenCreateTransaction()
     .setTokenName('Zeno Compliance Certificate')
@@ -59,6 +71,8 @@ export async function createComplianceCertNFTCollection(): Promise<string> {
     .setTokenType(TokenType.NonFungibleUnique)
     .setSupplyType(TokenSupplyType.Infinite)
     .setTreasuryAccountId(operatorId)
+    .setSupplyKey(supplyKey)
+    .setAdminKey(supplyKey)
     .setTokenMemo('Zeno ComplianceCertificateNFT — sustained compliance achievement');
 
   const response = await tx.execute(client);
@@ -89,7 +103,43 @@ export async function mintViolationNFT(
   metadata: Record<string, unknown>
 ): Promise<{ txId: string; serial: number }> {
   const client = getClient();
-  const metadataBytes = Buffer.from(JSON.stringify(metadata));
+
+  // Hedera NFT metadata limit: 100 bytes per entry
+  // Store compact reference — full data lives on HCS
+  const compact = [
+    metadata.facilityId || '',
+    metadata.parameter || '',
+    metadata.readingValue || '',
+    metadata.threshold || '',
+    metadata.timestamp ? (metadata.timestamp as string).substring(0, 19) : '',
+  ].join('|');
+  const metadataBytes = Buffer.from(compact.substring(0, 100));
+
+  const tx = new TokenMintTransaction()
+    .setTokenId(TokenId.fromString(tokenId))
+    .addMetadata(metadataBytes);
+
+  const response = await tx.execute(client);
+  const receipt = await response.getReceipt(client);
+
+  return {
+    txId: response.transactionId.toString(),
+    serial: Number(receipt.serials[0]),
+  };
+}
+
+export async function mintComplianceCertNFT(
+  tokenId: string,
+  metadata: Record<string, unknown>
+): Promise<{ txId: string; serial: number }> {
+  const client = getClient();
+
+  const compact = [
+    metadata.facilityId || '',
+    metadata.compliantDays || '',
+    metadata.issuedAt ? (metadata.issuedAt as string).substring(0, 19) : '',
+  ].join('|');
+  const metadataBytes = Buffer.from(compact.substring(0, 100));
 
   const tx = new TokenMintTransaction()
     .setTokenId(TokenId.fromString(tokenId))

@@ -48,8 +48,18 @@ export async function getAccountTokens(accountId: string): Promise<TokenBalance[
   }));
 }
 
+/**
+ * Query transaction details from Mirror Node.
+ * Accepts SDK format (0.0.X@sss.nnn) or Mirror Node format (0.0.X-sss-nnn).
+ */
 export async function getTransactionDetails(txId: string): Promise<Record<string, unknown>> {
-  const data = await fetchJSON(`${MIRROR_BASE}/api/v1/transactions/${txId}`);
+  // Convert SDK format "0.0.X@sss.nnn" → Mirror Node format "0.0.X-sss-nnn"
+  let mirrorTxId = txId;
+  if (txId.includes('@')) {
+    const [account, timestamp] = txId.split('@');
+    mirrorTxId = `${account}-${timestamp.replace('.', '-')}`;
+  }
+  const data = await fetchJSON(`${MIRROR_BASE}/api/v1/transactions/${mirrorTxId}`);
   return data.transactions?.[0] || data;
 }
 
