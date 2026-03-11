@@ -1,0 +1,35 @@
+{
+  "_mgs": {
+    "topicId": "0.0.8162309",
+    "entity": "VC",
+    "status": "Draft",
+    "deployedAt": "2026-03-11"
+  },
+  "name": "ComplianceEvaluation",
+  "description": "CPCB Schedule-VI compliance evaluation result with per-parameter breakdown",
+  "entity": "VC",
+  "fields": [
+    { "key": "evaluationId", "name": "evaluationId", "title": "Evaluation ID", "description": "Unique evaluation identifier", "type": "string", "required": true, "isArray": false },
+    { "key": "facilityId", "name": "facilityId", "title": "Facility ID", "description": "Facility that was evaluated", "type": "string", "required": true, "isArray": false },
+    { "key": "evaluatedAt", "name": "evaluatedAt", "title": "Evaluated At", "description": "ISO 8601 timestamp of evaluation", "type": "string", "required": true, "isArray": false },
+    { "key": "limitsSource", "name": "limitsSource", "title": "Limits Source", "description": "schedule_vi or cto_override", "type": "string", "required": true, "isArray": false },
+    { "key": "isZLD", "name": "isZLD", "title": "ZLD Mode", "description": "Whether facility is under Zero Liquid Discharge mandate", "type": "boolean", "required": true, "isArray": false },
+    { "key": "pH_compliant", "name": "pH_compliant", "title": "pH Compliant", "description": "pH within CPCB limits", "type": "boolean", "required": true, "isArray": false },
+    { "key": "pH_value", "name": "pH_value", "title": "pH Value", "description": "Measured pH value", "type": "number", "required": true, "isArray": false },
+    { "key": "BOD_compliant", "name": "BOD_compliant", "title": "BOD Compliant", "description": "BOD within limits", "type": "boolean", "required": true, "isArray": false },
+    { "key": "BOD_value", "name": "BOD_value", "title": "BOD Value (mg/L)", "description": "Measured BOD", "type": "number", "required": true, "isArray": false },
+    { "key": "COD_compliant", "name": "COD_compliant", "title": "COD Compliant", "description": "COD within limits", "type": "boolean", "required": true, "isArray": false },
+    { "key": "COD_value", "name": "COD_value", "title": "COD Value (mg/L)", "description": "Measured COD", "type": "number", "required": true, "isArray": false },
+    { "key": "TSS_compliant", "name": "TSS_compliant", "title": "TSS Compliant", "description": "TSS within limits", "type": "boolean", "required": true, "isArray": false },
+    { "key": "TSS_value", "name": "TSS_value", "title": "TSS Value (mg/L)", "description": "Measured TSS", "type": "number", "required": true, "isArray": false },
+    { "key": "temp_compliant", "name": "temp_compliant", "title": "Temp Compliant", "description": "Temperature within limits", "type": "boolean", "required": true, "isArray": false },
+    { "key": "temp_value", "name": "temp_value", "title": "Temp Value (C)", "description": "Measured temperature", "type": "number", "required": true, "isArray": false },
+    { "key": "chromium_compliant", "name": "chromium_compliant", "title": "Chromium Compliant", "description": "Total chromium within limits", "type": "boolean", "required": true, "isArray": false },
+    { "key": "chromium_value", "name": "chromium_value", "title": "Chromium Value (mg/L)", "description": "Measured total chromium", "type": "number", "required": true, "isArray": false },
+    { "key": "overallCompliant", "name": "overallCompliant", "title": "Overall Compliant", "description": "True if all parameters pass", "type": "boolean", "required": true, "isArray": false },
+    { "key": "violationCount", "name": "violationCount", "title": "Violation Count", "description": "Number of parameters exceeding limits", "type": "integer", "required": true, "isArray": false },
+    { "key": "criticalViolationCount", "name": "criticalViolationCount", "title": "Critical Violations", "description": "Parameters exceeding limits by more than 50 percent", "type": "integer", "required": true, "isArray": false },
+    { "key": "tokenAction", "name": "tokenAction", "title": "Token Action", "description": "mint_ggcc, mint_violation_nft, pending_review, or none", "type": "string", "required": true, "isArray": false }
+  ],
+  "conditions": []
+}

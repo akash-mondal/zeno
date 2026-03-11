@@ -1,0 +1,31 @@
+{
+  "_mgs": {
+    "topicId": "0.0.8162024",
+    "entity": "VC",
+    "status": "Draft",
+    "deployedAt": "2026-03-11"
+  },
+  "name": "FacilityRegistration",
+  "description": "Industrial facility registration with CPCB OCEMS device identity and Consent to Operate details",
+  "entity": "VC",
+  "fields": [
+    { "key": "facilityId", "name": "facilityId", "title": "Facility ID", "description": "Unique facility identifier (e.g., KNP-TAN-001)", "type": "string", "required": true, "isArray": false },
+    { "key": "facilityName", "name": "facilityName", "title": "Facility Name", "description": "Official registered name", "type": "string", "required": true, "isArray": false },
+    { "key": "industryCategory", "name": "industryCategory", "title": "Industry Category", "description": "CPCB mandatory OCEMS industry category (tannery, dyes, distillery, dairy, sugar, pulp_paper, thermal_power, cement, oil_refinery, fertilizer, chlor_alkali, pesticides, pharma, iron_steel, copper_smelting, zinc_smelting, aluminium, petrochemicals)", "type": "string", "required": true, "isArray": false },
+    { "key": "state", "name": "state", "title": "State", "description": "Indian state where facility is located", "type": "string", "required": true, "isArray": false },
+    { "key": "district", "name": "district", "title": "District", "description": "District within state", "type": "string", "required": true, "isArray": false },
+    { "key": "gpsLatitude", "name": "gpsLatitude", "title": "GPS Latitude", "description": "Facility GPS latitude", "type": "number", "required": true, "isArray": false },
+    { "key": "gpsLongitude", "name": "gpsLongitude", "title": "GPS Longitude", "description": "Facility GPS longitude", "type": "number", "required": true, "isArray": false },
+    { "key": "ocemsSensorModel", "name": "ocemsSensorModel", "title": "OCEMS Sensor Model", "description": "OCEMS analyzer model (e.g., Horiba ENDA-600ZG)", "type": "string", "required": true, "isArray": false },
+    { "key": "analyzerSerialNumber", "name": "analyzerSerialNumber", "title": "Analyzer Serial Number", "description": "Unique device serial number", "type": "string", "required": true, "isArray": false },
+    { "key": "ctoNumber", "name": "ctoNumber", "title": "CTO Number", "description": "Consent to Operate permit number issued by SPCB", "type": "string", "required": true, "isArray": false },
+    { "key": "ctoValidUntil", "name": "ctoValidUntil", "title": "CTO Valid Until", "description": "CTO expiry date (ISO 8601)", "type": "string", "required": true, "isArray": false },
+    { "key": "ctoDischargeMode", "name": "ctoDischargeMode", "title": "Discharge Mode", "description": "discharge or ZLD", "type": "string", "required": true, "isArray": false },
+    { "key": "ctoBODLimit", "name": "ctoBODLimit", "title": "CTO BOD Limit (mg/L)", "description": "Custom BOD limit if stricter than Schedule-VI default (30 mg/L)", "type": "number", "required": false, "isArray": false },
+    { "key": "ctoCODLimit", "name": "ctoCODLimit", "title": "CTO COD Limit (mg/L)", "description": "Custom COD limit if stricter than Schedule-VI default (250 mg/L)", "type": "number", "required": false, "isArray": false },
+    { "key": "ctoTSSLimit", "name": "ctoTSSLimit", "title": "CTO TSS Limit (mg/L)", "description": "Custom TSS limit if stricter than Schedule-VI default (100 mg/L)", "type": "number", "required": false, "isArray": false },
+    { "key": "deviceKmsKeyId", "name": "deviceKmsKeyId", "title": "Device KMS Key ID", "description": "AWS KMS key ARN for this device signing key", "type": "string", "required": true, "isArray": false },
+    { "key": "deviceHederaAccountId", "name": "deviceHederaAccountId", "title": "Device Hedera Account", "description": "Hedera account controlled by this device KMS key", "type": "string", "required": true, "isArray": false }
+  ],
+  "conditions": []
+}

@@ -1,0 +1,30 @@
+{
+  "_mgs": {
+    "topicId": "0.0.8162042",
+    "entity": "VC",
+    "status": "Draft",
+    "deployedAt": "2026-03-11"
+  },
+  "name": "SensorReading",
+  "description": "OCEMS sensor reading with KMS-signed CPCB Schedule-VI parameters — MRV data",
+  "entity": "VC",
+  "fields": [
+    { "key": "timestamp", "name": "timestamp", "title": "Timestamp", "description": "ISO 8601 timestamp when reading was taken", "type": "string", "required": true, "isArray": false },
+    { "key": "facilityId", "name": "facilityId", "title": "Facility ID", "description": "Links to FacilityRegistration", "type": "string", "required": true, "isArray": false },
+    { "key": "pH", "name": "pH", "title": "pH", "description": "pH value (CPCB limit: 5.5-9.0)", "type": "number", "required": true, "isArray": false },
+    { "key": "BOD_mgL", "name": "BOD_mgL", "title": "BOD (mg/L)", "description": "Biochemical Oxygen Demand (CPCB limit: 30 mg/L)", "type": "number", "required": true, "isArray": false },
+    { "key": "COD_mgL", "name": "COD_mgL", "title": "COD (mg/L)", "description": "Chemical Oxygen Demand (CPCB limit: 250 mg/L)", "type": "number", "required": true, "isArray": false },
+    { "key": "TSS_mgL", "name": "TSS_mgL", "title": "TSS (mg/L)", "description": "Total Suspended Solids (CPCB limit: 100 mg/L)", "type": "number", "required": true, "isArray": false },
+    { "key": "temperature_C", "name": "temperature_C", "title": "Temperature (C)", "description": "Effluent temperature (CPCB limit: 5C above ambient)", "type": "number", "required": true, "isArray": false },
+    { "key": "totalChromium_mgL", "name": "totalChromium_mgL", "title": "Total Chromium (mg/L)", "description": "Total chromium (CPCB limit: 2.0 mg/L)", "type": "number", "required": true, "isArray": false },
+    { "key": "hexChromium_mgL", "name": "hexChromium_mgL", "title": "Hex Chromium (mg/L)", "description": "Hexavalent chromium (CPCB limit: 0.1 mg/L)", "type": "number", "required": false, "isArray": false },
+    { "key": "oilAndGrease_mgL", "name": "oilAndGrease_mgL", "title": "Oil and Grease (mg/L)", "description": "Oil and grease (CPCB limit: 10 mg/L)", "type": "number", "required": false, "isArray": false },
+    { "key": "ammoniacalN_mgL", "name": "ammoniacalN_mgL", "title": "Ammoniacal N (mg/L)", "description": "Ammoniacal nitrogen (CPCB limit: 50 mg/L)", "type": "number", "required": false, "isArray": false },
+    { "key": "dissolvedOxygen_mgL", "name": "dissolvedOxygen_mgL", "title": "Dissolved Oxygen (mg/L)", "description": "Dissolved oxygen concentration", "type": "number", "required": false, "isArray": false },
+    { "key": "flow_KLD", "name": "flow_KLD", "title": "Flow (KLD)", "description": "Effluent flow in Kilolitres per Day. ZLD: any >0 = violation", "type": "number", "required": true, "isArray": false },
+    { "key": "sensorStatus", "name": "sensorStatus", "title": "Sensor Status", "description": "Device status: online, offline_queued, reconnected_batch, maintenance, calibrating", "type": "string", "required": true, "isArray": false },
+    { "key": "kmsKeyId", "name": "kmsKeyId", "title": "KMS Key ID", "description": "AWS KMS key that signed this reading", "type": "string", "required": true, "isArray": false },
+    { "key": "kmsSigHash", "name": "kmsSigHash", "title": "KMS Signature Hash", "description": "Hex-encoded 64-byte ECDSA signature from AWS KMS", "type": "string", "required": true, "isArray": false }
+  ],
+  "conditions": []
+}

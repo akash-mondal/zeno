@@ -1,0 +1,21 @@
+{
+  "_mgs": {
+    "topicId": "0.0.8162313",
+    "entity": "VC",
+    "status": "Draft",
+    "deployedAt": "2026-03-11"
+  },
+  "name": "SatelliteValidation",
+  "description": "Sentinel-2 satellite cross-validation of OCEMS data using Se2WaQ water quality indices",
+  "entity": "VC",
+  "fields": [
+    { "key": "facilityId", "name": "facilityId", "title": "Facility ID", "description": "Facility being cross-validated", "type": "string", "required": true, "isArray": false },
+    { "key": "sentinelTileDate", "name": "sentinelTileDate", "title": "Sentinel Tile Date", "description": "Date of Sentinel-2 satellite pass", "type": "string", "required": true, "isArray": false },
+    { "key": "NDTI_value", "name": "NDTI_value", "title": "NDTI Value", "description": "Normalized Difference Turbidity Index: (B4-B3)/(B4+B3)", "type": "number", "required": true, "isArray": false },
+    { "key": "NDCI_value", "name": "NDCI_value", "title": "NDCI Value", "description": "Normalized Difference Chlorophyll Index: (B5-B4)/(B5+B4)", "type": "number", "required": true, "isArray": false },
+    { "key": "turbidity_NTU", "name": "turbidity_NTU", "title": "Turbidity (NTU)", "description": "Se2WaQ turbidity: 8.93 x (B03/B01) - 6.39", "type": "number", "required": true, "isArray": false },
+    { "key": "chlorophyll_mgm3", "name": "chlorophyll_mgm3", "title": "Chlorophyll-a (mg/m3)", "description": "Se2WaQ chlorophyll: 4.26 x (B03/B01)^3.94", "type": "number", "required": true, "isArray": false },
+    { "key": "correlationScore", "name": "correlationScore", "title": "Correlation Score", "description": "Correlation between OCEMS TSS and satellite turbidity (0-1)", "type": "number", "required": true, "isArray": false }
+  ],
+  "conditions": []
+}
